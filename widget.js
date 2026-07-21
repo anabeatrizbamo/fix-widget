@@ -1,33 +1,54 @@
 window.addEventListener("load", () => {
 
-    if (document.getElementById("fix-chat-container")) return;
-
-    const container = document.createElement("div");
-    container.id = "fix-chat-container";
-
-    container.style.position = "fixed";
-    container.style.top = "0";
-    container.style.left = "0";
-    container.style.width = "100vw";
-    container.style.height = "100vh";
-    container.style.border = "none";
-    container.style.zIndex = "999999";
-
-    container.style.pointerEvents = "none";
+    if (document.getElementById("fix-chat-frame")) return;
 
     const iframe = document.createElement("iframe");
 
+    iframe.id = "fix-chat-frame";
+
     iframe.src = "https://buildwebchatfix.vercel.app";
 
-    iframe.style.width = "100%";
-    iframe.style.height = "100%";
-    iframe.style.border = "0";
+    iframe.style.position = "fixed";
+    iframe.style.right = "20px";
+    iframe.style.bottom = "20px";
+
+    // Tamanho inicial: apenas o botão
+    iframe.style.width = "72px";
+    iframe.style.height = "72px";
+
+    iframe.style.border = "none";
     iframe.style.background = "transparent";
+    iframe.style.overflow = "hidden";
 
-    iframe.style.pointerEvents = "auto";
+    iframe.style.zIndex = "999999999";
 
-    container.appendChild(iframe);
+    iframe.style.transition =
+        "width .25s ease,height .25s ease";
 
-    document.body.appendChild(container);
+    document.body.appendChild(iframe);
+
+    // Tenta detectar foco no iframe
+    iframe.addEventListener("focus", expandir);
+
+    iframe.addEventListener("mouseenter", expandir);
+
+    function expandir() {
+
+        iframe.style.width = "390px";
+        iframe.style.height = "680px";
+
+    }
+
+    // Fecha quando clicar fora
+    document.addEventListener("click", function(e){
+
+        if(!iframe.contains(e.target)){
+
+            iframe.style.width="72px";
+            iframe.style.height="72px";
+
+        }
+
+    });
 
 });
