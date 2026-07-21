@@ -1,79 +1,72 @@
-(function () {
+window.addEventListener("load", () => {
 
-    if (document.getElementById("fix-chat-widget")) return;
+    if (document.getElementById("fix-widget")) return;
 
     const style = document.createElement("style");
 
     style.innerHTML = `
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
-    *{
-        font-family:Inter,sans-serif;
-    }
+    #fix-widget{
 
-    #fix-chat-widget{
         position:fixed;
+
         right:24px;
+
         bottom:24px;
+
         z-index:999999999;
-    }
-
-    #fix-chat-button{
-
-        width:68px;
-        height:68px;
-
-        border-radius:50%;
-
-        border:none;
-
-        background:#1695FB;
-
-        color:white;
-
-        cursor:pointer;
-
-        font-size:28px;
-
-        box-shadow:0 10px 30px rgba(0,2,14,.35);
-
-        transition:.25s;
 
     }
 
-    #fix-chat-button:hover{
+    #fix-chat{
 
-        transform:scale(1.08);
+        position:fixed;
 
-    }
+        right:24px;
 
-    #fix-chat-window{
-
-        position:absolute;
-
-        right:0;
-
-        bottom:90px;
+        bottom:100px;
 
         width:390px;
 
         height:680px;
 
-        background:white;
+        display:none;
 
         overflow:hidden;
 
-        border-radius:22px;
+        border:none;
 
-        display:none;
+        border-radius:18px;
 
-        border:2px solid #1695FB;
+        background:transparent;
 
-        box-shadow:0 25px 60px rgba(0,2,14,.35);
+        box-shadow:0 18px 45px rgba(0,0,0,.25);
+
+        animation:chatOpen .25s ease;
 
     }
 
-    #fix-chat-window iframe{
+    @keyframes chatOpen{
+
+        from{
+
+            opacity:0;
+
+            transform:translateY(15px) scale(.97);
+
+        }
+
+        to{
+
+            opacity:1;
+
+            transform:none;
+
+        }
+
+    }
+
+    #fix-chat iframe{
 
         width:100%;
 
@@ -81,45 +74,43 @@
 
         border:none;
 
+        display:block;
+
+        background:transparent;
+
     }
 
-    #fix-close{
+    #fix-button{
 
-        position:absolute;
+        width:64px;
 
-        top:14px;
-
-        right:14px;
-
-        width:34px;
-
-        height:34px;
+        height:64px;
 
         border-radius:50%;
 
         border:none;
 
-        background:#00020E;
-
-        color:white;
-
         cursor:pointer;
 
-        z-index:99;
+        background:white;
+
+        box-shadow:0 10px 30px rgba(0,0,0,.25);
+
+        font-size:28px;
+
+        transition:.2s;
 
     }
 
-    #fix-close:hover{
+    #fix-button:hover{
 
-        background:#1695FB;
+        transform:scale(1.08);
 
     }
 
     @media(max-width:768px){
 
-        #fix-chat-window{
-
-            position:fixed;
+        #fix-chat{
 
             left:0;
 
@@ -129,7 +120,19 @@
 
             height:100vh;
 
+            right:auto;
+
+            bottom:auto;
+
             border-radius:0;
+
+        }
+
+        #fix-widget{
+
+            right:18px;
+
+            bottom:18px;
 
         }
 
@@ -141,41 +144,44 @@
 
     const widget = document.createElement("div");
 
-    widget.id = "fix-chat-widget";
+    widget.id = "fix-widget";
 
     widget.innerHTML = `
 
-    <div id="fix-chat-window">
+        <div id="fix-chat"></div>
 
-        <button id="fix-close">✕</button>
-
-        <iframe
-        loading="lazy"
-        src="https://buildwebchatfix.vercel.app">
-        </iframe>
-
-    </div>
-
-    <button id="fix-chat-button">
-
-        💬
-
-    </button>
+        <button id="fix-button">💬</button>
 
     `;
 
     document.body.appendChild(widget);
 
-    document.getElementById("fix-chat-button").onclick=function(){
+    const button = document.getElementById("fix-button");
+    const chat = document.getElementById("fix-chat");
 
-        document.getElementById("fix-chat-window").style.display="block";
+    let aberto = false;
+    let carregado = false;
 
-    }
+    button.onclick = () => {
 
-    document.getElementById("fix-close").onclick=function(){
+        if (!carregado) {
 
-        document.getElementById("fix-chat-window").style.display="none";
+            const iframe = document.createElement("iframe");
 
-    }
+            iframe.src = "https://buildwebchatfix.vercel.app";
 
-})();
+            iframe.loading = "lazy";
+
+            chat.appendChild(iframe);
+
+            carregado = true;
+
+        }
+
+        aberto = !aberto;
+
+        chat.style.display = aberto ? "block" : "none";
+
+    };
+
+});
