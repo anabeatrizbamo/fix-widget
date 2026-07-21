@@ -1,187 +1,33 @@
 window.addEventListener("load", () => {
 
-    if (document.getElementById("fix-widget")) return;
+    if (document.getElementById("fix-chat-container")) return;
 
-    const style = document.createElement("style");
+    const container = document.createElement("div");
+    container.id = "fix-chat-container";
 
-    style.innerHTML = `
+    container.style.position = "fixed";
+    container.style.top = "0";
+    container.style.left = "0";
+    container.style.width = "100vw";
+    container.style.height = "100vh";
+    container.style.border = "none";
+    container.style.zIndex = "999999";
 
-    #fix-widget{
+    container.style.pointerEvents = "none";
 
-        position:fixed;
+    const iframe = document.createElement("iframe");
 
-        right:24px;
+    iframe.src = "https://buildwebchatfix.vercel.app";
 
-        bottom:24px;
+    iframe.style.width = "100%";
+    iframe.style.height = "100%";
+    iframe.style.border = "0";
+    iframe.style.background = "transparent";
 
-        z-index:999999999;
+    iframe.style.pointerEvents = "auto";
 
-    }
+    container.appendChild(iframe);
 
-    #fix-chat{
-
-        position:fixed;
-
-        right:24px;
-
-        bottom:100px;
-
-        width:390px;
-
-        height:680px;
-
-        display:none;
-
-        overflow:hidden;
-
-        border:none;
-
-        border-radius:18px;
-
-        background:transparent;
-
-        box-shadow:0 18px 45px rgba(0,0,0,.25);
-
-        animation:chatOpen .25s ease;
-
-    }
-
-    @keyframes chatOpen{
-
-        from{
-
-            opacity:0;
-
-            transform:translateY(15px) scale(.97);
-
-        }
-
-        to{
-
-            opacity:1;
-
-            transform:none;
-
-        }
-
-    }
-
-    #fix-chat iframe{
-
-        width:100%;
-
-        height:100%;
-
-        border:none;
-
-        display:block;
-
-        background:transparent;
-
-    }
-
-    #fix-button{
-
-        width:64px;
-
-        height:64px;
-
-        border-radius:50%;
-
-        border:none;
-
-        cursor:pointer;
-
-        background:white;
-
-        box-shadow:0 10px 30px rgba(0,0,0,.25);
-
-        font-size:28px;
-
-        transition:.2s;
-
-    }
-
-    #fix-button:hover{
-
-        transform:scale(1.08);
-
-    }
-
-    @media(max-width:768px){
-
-        #fix-chat{
-
-            left:0;
-
-            top:0;
-
-            width:100vw;
-
-            height:100vh;
-
-            right:auto;
-
-            bottom:auto;
-
-            border-radius:0;
-
-        }
-
-        #fix-widget{
-
-            right:18px;
-
-            bottom:18px;
-
-        }
-
-    }
-
-    `;
-
-    document.head.appendChild(style);
-
-    const widget = document.createElement("div");
-
-    widget.id = "fix-widget";
-
-    widget.innerHTML = `
-
-        <div id="fix-chat"></div>
-
-        <button id="fix-button">💬</button>
-
-    `;
-
-    document.body.appendChild(widget);
-
-    const button = document.getElementById("fix-button");
-    const chat = document.getElementById("fix-chat");
-
-    let aberto = false;
-    let carregado = false;
-
-    button.onclick = () => {
-
-        if (!carregado) {
-
-            const iframe = document.createElement("iframe");
-
-            iframe.src = "https://buildwebchatfix.vercel.app";
-
-            iframe.loading = "lazy";
-
-            chat.appendChild(iframe);
-
-            carregado = true;
-
-        }
-
-        aberto = !aberto;
-
-        chat.style.display = aberto ? "block" : "none";
-
-    };
+    document.body.appendChild(container);
 
 });
